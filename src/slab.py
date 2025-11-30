@@ -11,7 +11,7 @@ from scipy.optimize import curve_fit
 
 
 
-class Slab():
+class SimSlab():
     '''Instancce:
     delta_m_2D (2D array): the two dimensional projected matter density along the given direction
     N_halos_2D (2D array): The number of halos
@@ -79,7 +79,7 @@ class Slab():
     
     
         
-        self.delta_m_2D_bin_mean, self.N_halos_2D_bin_mean, self.N_halos_2D_bin_var = Slab.bin_number_counts(delta_m_2D_map_vec, N_halos_2D_map_vec,
+        self.delta_m_2D_bin_mean, self.N_halos_2D_bin_mean, self.N_halos_2D_bin_var = SimSlab.bin_number_counts(delta_m_2D_map_vec, N_halos_2D_map_vec,
                                                                                     ncells=ncells)
         
 
@@ -92,7 +92,7 @@ class Slab():
         delta_m_2D_map_vec_filtered = delta_m_2D_map_vec[zero_filter]
         N_halos_2D_map_vec_filtered = N_halos_2D_map_vec[zero_filter]
         
-        self.delta_m_2D_bin_mean_filtered, self.N_halos_2D_bin_mean_filtered, self.N_halos_2D_bin_var_filtered = Slab.bin_number_counts(delta_m_2D_map_vec_filtered, N_halos_2D_map_vec_filtered,
+        self.delta_m_2D_bin_mean_filtered, self.N_halos_2D_bin_mean_filtered, self.N_halos_2D_bin_var_filtered = SimSlab.bin_number_counts(delta_m_2D_map_vec_filtered, N_halos_2D_map_vec_filtered,
                                                                                     ncells=ncells)
         
         
@@ -224,7 +224,7 @@ class Slab():
 
     def negative_log_L_Poissonian(self, fixed_params_names, free_params_names, fixed_params_values, bias_model, delta_m_cut, *params):
 
-        return -1*Slab.log_L_Poissonian(self, fixed_params_names, free_params_names, fixed_params_values, bias_model, delta_m_cut,  *params)
+        return -1*SimSlab.log_L_Poissonian(self, fixed_params_names, free_params_names, fixed_params_values, bias_model, delta_m_cut,  *params)
     
 
 
@@ -232,7 +232,7 @@ class Slab():
     def optimize_max_L_Poissonian(self, initial_guess, fixed_params_names, free_params_names, fixed_params_values, bias_model, delta_m_cut = None):
         # write an error for the consistency between the initial guess and chosen bias model
         '''A fucntion to fit bias paramters model'''
-        objective_function = lambda params: Slab.negative_log_L_Poissonian(self, fixed_params_names, free_params_names, fixed_params_values, bias_model, delta_m_cut, params)
+        objective_function = lambda params: SimSlab.negative_log_L_Poissonian(self, fixed_params_names, free_params_names, fixed_params_values, bias_model, delta_m_cut, params)
         result = minimize(fun = objective_function , x0 = initial_guess)
         return result["x"], result["hess_inv"], result["fun"]
 
@@ -277,7 +277,7 @@ class Slab():
     
         
     def negative_log_L_Generalized_Poissonian(self, fixed_params_names, free_params_names,  fixed_params_values, bias_model, theta_model, *params):
-        return -1*Slab.log_L_Generalized_Poissonian(self, fixed_params_names, free_params_names,  fixed_params_values, bias_model, theta_model, *params)
+        return -1*SimSlab.log_L_Generalized_Poissonian(self, fixed_params_names, free_params_names,  fixed_params_values, bias_model, theta_model, *params)
 
 
     
@@ -285,7 +285,7 @@ class Slab():
         
     def optimize_max_L_Generalized_Poissonian(self, initial_guess, fixed_params_names, free_params_names,  fixed_params_values, bias_model, theta_model, *params):
         # write an error for the consistency between the initial guess and chosen bias model
-        objective_function = lambda params: Slab.negative_log_L_Generalized_Poissonian(self, fixed_params_names, free_params_names,  fixed_params_values, bias_model, theta_model, params)
+        objective_function = lambda params: SimSlab.negative_log_L_Generalized_Poissonian(self, fixed_params_names, free_params_names,  fixed_params_values, bias_model, theta_model, params)
 
         result = minimize(fun = objective_function , x0 = initial_guess)
         return result["x"], result["hess_inv"], result["fun"]
@@ -381,7 +381,7 @@ class Slab():
         delta_m_grid = np.zeros((512, 512, 512))
         delta_m_grid[ix_matter, iy_matter, iz_matter] = delta_m
         if resol != 512:
-            delta_m_grid = Slab.lower_resolution_delta_m_3D(delta_m_grid, resol=resol)
+            delta_m_grid = SimSlab.lower_resolution_delta_m_3D(delta_m_grid, resol=resol)
         return delta_m_grid
     
 
