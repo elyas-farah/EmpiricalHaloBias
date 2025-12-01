@@ -48,11 +48,12 @@ def nh_lik(log10_Mmin, log10_Mmax, *params):
   
     return term1
 
-def minus_Likelihood(delta_2d_arr, halo_cat, delta_m_min, delta_m_max, log10_Mmin, log10_Mmax, slab_width = 125, *params):
+def minus_Likelihood(delta_2d_arr, halo_cat, delta_m_min, delta_m_max, log10_Mmin, log10_Mmax, fix_beta, slab_width = 125, *params):
     '''Poissonian likelihood '''
-    
     log10_ns, alpha, log10_M0,  beta = params
     
+    if fix_beta:
+        beta = 1    
 
     
     # print("params loaded")
